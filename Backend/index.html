@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Data from Backend</title>
+</head>
+<body>
+    <div id="books-container"></div>
+
+    <script>
+        // Fetch data from the backend
+        fetch('http://localhost:5000/api/books')
+            .then(response => response.json())
+            .then(data => {
+                // Process the retrieved data
+                const booksContainer = document.getElementById('books-container');
+                data.forEach(book => {
+                    const bookElement = document.createElement('div');
+                    bookElement.innerHTML = `
+                        <h2>${book.title}</h2>
+                        <p>Author: ${book.author}</p>
+                        <p>Rating: ${book.rating}</p>
+                        <p>First Sentence: ${book.firstSentence}</p>
+                        <p>Subjects: ${book.subjects}</p>
+                        <p>Pages Read: ${book.pagesRead}</p>
+                        <div class="review-section">
+                            <h3>Add a Review</h3>
+                            <textarea class="review-input" placeholder="Write your review here..."></textarea>
+                            <button class="submit-review" data-bookid="${book._id}">Submit Review</button>
+                        </div>
+                    `;
+                    booksContainer.appendChild(bookElement);
+                });
+
+                // Add event listeners to submit reviews
+                document.querySelectorAll('.submit-review').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const bookId = button.getAttribute('data-bookid');
+                        const reviewInput = button.previousElementSibling;
+                        const review = reviewInput.value;
+
+                        // Post review to the backend
+                        fetch(`http://localhost:5000/api/books/${bookId}/review`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ review })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Review submitted:', data);
+                            // Optionally update the UI to reflect the submitted review
+                        })
+                        .catch(error => console.error('Error submitting review:', error));
+
+                        // Clear review input field
+                        reviewInput.value = '';
+                    });
+                });
+            })
+            .catch(error => console.error('Error fetching books:', error));
+    </script>
+</body>
+</html>
