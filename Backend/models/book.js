@@ -4,7 +4,10 @@ const bookSchema = new mongoose.Schema({
     title: String,
     author: String,
     rating: Number,
-    review: String,
+    review: {
+        type: String,
+        default: '' // Default value to prevent the field from being empty
+    },
     pagesRead: Number,
     bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] 
 });
