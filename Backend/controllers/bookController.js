@@ -1,62 +1,48 @@
 const Book = require('../models/book');
 
 const bookController = {
-    // Controller function to create a new book
-    createBook: async (req, res) => {
+    // Controller method to retrieve all favorite marked books of the user
+    getFavoriteBooks: async (req, res) => {
         try {
-            const newBook = await Book.create(req.body);
-            res.status(201).json(newBook);
+            // Get the user's favorite marked books from the database
+            // You can implement this logic if needed
+            res.json({ message: 'Retrieve favorite marked books' });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            console.error('Error retrieving favorite books:', error.message);
+            res.status(500).json({ error: 'Error retrieving favorite books' });
         }
     },
 
-    // Controller function to get all books
-    getAllBooks: async (req, res) => {
+    // Controller method to add a read book with rating, review, and number of pages
+    addReadBook: async (req, res) => {
         try {
-            const allBooks = await Book.find();
-            res.json(allBooks);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    },
-
-    // Controller function to get a single book by ID
-    getBookById: async (req, res) => {
-        try {
+            // Retrieve the book from the database
             const book = await Book.findById(req.params.id);
             if (!book) {
                 return res.status(404).json({ message: 'Book not found' });
             }
-            res.json(book);
+            // Update the book details with read information
+            book.rating = req.body.rating;
+            book.review = req.body.review;
+            book.pagesRead = req.body.pagesRead;
+            // Save the updated book
+            await book.save();
+            res.json({ message: 'Book marked as read successfully' });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            console.error('Error marking book as read:', error.message);
+            res.status(500).json({ error: 'Error marking book as read' });
         }
     },
 
-    // Controller function to update a book by ID
-    updateBook: async (req, res) => {
+    // Controller method to retrieve all read books of the user
+    getReadBooks: async (req, res) => {
         try {
-            const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
-            if (!updatedBook) {
-                return res.status(404).json({ message: 'Book not found' });
-            }
-            res.json(updatedBook);
+            // Get the user's read books from the database
+            // You can implement this logic if needed
+            res.json({ message: 'Retrieve read books' });
         } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    },
-
-    // Controller function to delete a book by ID
-    deleteBook: async (req, res) => {
-        try {
-            const deletedBook = await Book.findByIdAndDelete(req.params.id);
-            if (!deletedBook) {
-                return res.status(404).json({ message: 'Book not found' });
-            }
-            res.json({ message: 'Book deleted successfully' });
-        } catch (error) {
-            res.status(500).json({ error: error.message });
+            console.error('Error retrieving read books:', error.message);
+            res.status(500).json({ error: 'Error retrieving read books' });
         }
     }
 };
