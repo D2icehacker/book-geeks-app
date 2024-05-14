@@ -8,7 +8,6 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import noImg from "../../assets/no-image.png";
-import BookChip from "../BookChip/BookChip.component";
 import "./Book.styles.scss";
 
 const Image = React.lazy(() => import("../Image/Image.component"));
@@ -42,8 +41,7 @@ const useStyles = makeStyles((theme) => ({
 const Book = ({ book }) => {
   const classes = useStyles();
 
-  const { volumeInfo, saleInfo, accessInfo } = book;
-  const { isEbook, saleability } = saleInfo;
+  const { volumeInfo } = book;
   let imgURL = volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : noImg;
   let publishedYear = volumeInfo.publishedDate
     ? volumeInfo.publishedDate.slice(0, 4)
@@ -79,32 +77,6 @@ const Book = ({ book }) => {
             {publishedYear}
           </Typography>
 
-          {volumeInfo.categories && (
-            <BookChip
-              label={volumeInfo.categories}
-              color="chipCategory"
-              key={volumeInfo.categories}
-            />
-          )}
-
-          {saleability === "FREE" ? (
-            <BookChip label="Free" color="chipSuccess" />
-          ) : saleability === "FOR_SALE" ? (
-            <BookChip label="For Sale" color="chipInfo" />
-          ) : saleability === "NOT_FOR_SALE" ? (
-            <BookChip label="Not for sale" color="chipDanger" />
-          ) : null}
-
-          {isEbook ? <BookChip label="Ebook" color="chipSuccess" /> : null}
-
-          {accessInfo.viewability === "PARTIAL" ? (
-            <BookChip label="Partial Preview" color="chipWarning" />
-          ) : accessInfo.viewability === "ALL_PAGES" ? (
-            <BookChip label="Full Preview" color="chipSuccess" />
-          ) : accessInfo.viewability === "NO_PAGES" ? (
-            <BookChip label="No Preview" color="chipDanger" />
-          ) : null}
-
           <Link to={`/details/${book.id}`} className={classes.btnLink}>
             <Button
               variant="contained"
@@ -112,7 +84,7 @@ const Book = ({ book }) => {
               fullWidth
               className={classes.btn}
             >
-              Details
+              Read More
             </Button>
           </Link>
         </div>
