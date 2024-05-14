@@ -22,8 +22,8 @@ export const filters = {
   // free: "&filter=free-ebooks",
   // paid: "&filter=paid-ebooks",
   // ebooks: "&filter=ebooks",
-  bookmarks: "&=",
-  favourites: "&=",
+  bookmarks: "&filter=paid-ebooks",
+  favourites: "&filter=ebooks",
 };
 
 // order
