@@ -24,7 +24,7 @@ const Header = () => {
       <Toolbar>
         <Link to='/' className={classes.link}>
           <Typography align='center' component='h1' variant='h4' className={classes.title}>
-            Bookssy
+            Book Geeks
           </Typography>
         </Link>
       </Toolbar>
