@@ -1,6 +1,6 @@
 import React, { useContext, useState, Suspense, useEffect } from "react";
 import { BooksListContext } from "../../context/BooksListContext";
-import { Container, Paper, CircularProgress } from "@material-ui/core";
+import { CircularProgress, Container, Paper } from "@mui/material";
 import SearchBar from "../../components/SearchBar/SearchBar.component";
 import Title from "../../components/Title/Title.component";
 import Message from "../../components/Message/Message.component";

@@ -1,37 +1,16 @@
 import React, { Fragment } from "react";
-import { Button } from "@material-ui/core";
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import { Button, styled } from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
-  margin: {
-    marginRight: '0.5rem'
-  },
-  secondary: {
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.secondary.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.secondary.dark,
-    }
-  },
-  tertiary: {
-    backgroundColor: theme.palette.tertiary.main,
-    color: theme.palette.tertiary.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.tertiary.dark,
-    }
-  },
-  success: {
-    backgroundColor: theme.palette.success.main,
-    color: "#ffffff",
-    '&:hover': {
-      backgroundColor: theme.palette.success.dark,
-    }
-  },
+const StyledButton = styled(Button)(({ theme, color }) => ({
+  marginRight: '0.5rem',
+  backgroundColor: theme.palette[color].main,
+  color: theme.palette[color].contrastText,
+  '&:hover': {
+    backgroundColor: theme.palette[color].dark,
+  }
 }));
 
-const BookDetailsBtn = ({info, link, label, color}) => {
-  const classes = useStyles();
-
+const BookDetailsBtn = ({ info, link, label, color }) => {
   return (
     <Fragment>
       <a
@@ -40,9 +19,9 @@ const BookDetailsBtn = ({info, link, label, color}) => {
         rel="noopener noreferrer"
         className="book-details__btn-link"
       >
-        <Button variant="contained" className={`${classes[color]} ${classes.margin}`}>
+        <StyledButton variant="contained" color={color}>
           {label}
-        </Button>
+        </StyledButton>
       </a>
     </Fragment>
   );

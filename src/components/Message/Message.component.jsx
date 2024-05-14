@@ -1,19 +1,16 @@
 import React from "react";
-import { Typography, makeStyles } from "@material-ui/core";
+import { Typography, styled } from "@mui/material";
 import "./Message.styles.scss";
 
-const useStyles = makeStyles(() => ({
-  root: {
-    margin: "1rem 0",
-  },
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  margin: '1rem 0',
 }));
 
 const Message = ({ text }) => {
-  const classes = useStyles();
   return (
-    <Typography align="center" component="h2" variant="h4" className={classes.root}>
+    <StyledTypography align="center" component="h2" variant="h4">
       {text}
-    </Typography>
+    </StyledTypography>
   );
 };
 

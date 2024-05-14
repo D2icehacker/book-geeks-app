@@ -2,46 +2,53 @@ import React, { Suspense } from "react";
 import { Link } from "react-router-dom";
 import {
   Paper,
-  makeStyles,
   Typography,
   Button,
   CircularProgress,
-} from "@material-ui/core";
+  styled,
+} from "@mui/material";
+
 import noImg from "../../assets/no-image.png";
 import BookChip from "../BookChip/BookChip.component";
 import "./Book.styles.scss";
 
 const Image = React.lazy(() => import("../Image/Image.component"));
 
-const useStyles = makeStyles((theme) => ({
-  bookTitle: {
-    fontSize: "1rem",
-    lineHeight: "1.2rem",
-  },
-  bookDate: {
-    fontSize: "0.8rem",
-  },
-  bookContent: {
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.secondary.contrastText,
-    height: "100%",
-    position: "relative",
-    top: "253px",
-    zIndex: "2",
-    transition: "top 0.3s ease-in-out",
-  },
-  btnLink: {
-    textDecoration: "none",
-    color: theme.palette.primary.contrastText,
-  },
-  btn: {
-    marginTop: "0.5rem",
-  },
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  position: 'relative',
+  overflow: 'hidden',
+  margin: '1rem',
+}));
+
+const BookContent = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.secondary.main,
+  color: theme.palette.secondary.contrastText,
+  height: '100%',
+  position: 'relative',
+  top: '253px',
+  zIndex: '2',
+  transition: 'top 0.3s ease-in-out',
+}));
+
+const BookTitle = styled(Typography)(({ theme }) => ({
+  fontSize: '1rem',
+  lineHeight: '1.2rem',
+}));
+
+const BookDate = styled(Typography)(({ theme }) => ({
+  fontSize: '0.8rem',
+}));
+
+const BtnLink = styled(Link)(({ theme }) => ({
+  textDecoration: 'none',
+  color: theme.palette.primary.contrastText,
+}));
+
+const Btn = styled(Button)(({ theme }) => ({
+  marginTop: '0.5rem',
 }));
 
 const Book = ({ book }) => {
-  const classes = useStyles();
-
   const { volumeInfo, saleInfo, accessInfo } = book;
   const { isEbook, saleability } = saleInfo;
   let imgURL = volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : noImg;
@@ -50,7 +57,7 @@ const Book = ({ book }) => {
     : null;
 
   return (
-    <Paper className="book__paper">
+    <StyledPaper className="book__paper">
       <div className="book__img-container">
         <Suspense
           fallback={
@@ -66,18 +73,14 @@ const Book = ({ book }) => {
           />
         </Suspense>
       </div>
-      <div className={classes.bookContent}>
+      <BookContent>
         <div className="book__top">
-          <Typography variant="h6" component="h3" className={classes.bookTitle}>
+          <BookTitle variant="h6" component="h3">
             {volumeInfo.title}
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            component="p"
-            className={classes.bookDate}
-          >
+          </BookTitle>
+          <BookDate variant="subtitle1" component="p">
             {publishedYear}
-          </Typography>
+          </BookDate>
 
           {volumeInfo.categories && (
             <BookChip
@@ -105,19 +108,14 @@ const Book = ({ book }) => {
             <BookChip label="No Preview" color="chipDanger" />
           ) : null}
 
-          <Link to={`/details/${book.id}`} className={classes.btnLink}>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              className={classes.btn}
-            >
+          <BtnLink to={`/details/${book.id}`}>
+            <Btn variant="contained" color="primary" fullWidth>
               Details
-            </Button>
-          </Link>
+            </Btn>
+          </BtnLink>
         </div>
-      </div>
-    </Paper>
+      </BookContent>
+    </StyledPaper>
   );
 };
 
