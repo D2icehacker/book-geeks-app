@@ -17,14 +17,7 @@ export const parameters = {
 //filters
 export const filters = {
   all: " ",
-  // partial_preview: "&filter=partial",
-  // full_preview: "&filter=full",
-  // free: "&filter=free-ebooks",
-  // paid: "&filter=paid-ebooks",
-  // ebooks: "&filter=ebooks",
-  bookmarks: "&filter=1",
-  favourites: "&filter=2",
-  Readbooks: "&filter=3",
+
 };
 
 // order

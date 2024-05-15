@@ -6,6 +6,8 @@ import BookDetailsContextProvider from "./context/BookDetailsContext";
 import Header from "./components/Header/Header.component";
 import Footer from "./components/Footer/Footer.component";
 import ScrollToTop from "./components/ScrollToTop.component";
+import Bookmarks from "./pages/Bookmark/Bookmarks.component";
+import Favourites from "./pages/Favourite/Favourites.component"
 import "./App.css";
 
 const Search = React.lazy(() => import("./pages/Search/Search.component"));
@@ -50,6 +52,24 @@ function App() {
                 <>
                   <ScrollToTop />
                   <Home />
+                </>
+              }
+            />
+            <Route
+              path="/bookmarks"
+              element={
+                <>
+                  <ScrollToTop />
+                  <Bookmarks />
+                </>
+              }
+            />
+  <Route
+              path="/favourites"
+              element={
+                <>
+                  <ScrollToTop />
+                  <Favourites />
                 </>
               }
             />
