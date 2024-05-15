@@ -1,9 +1,10 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Link, styled } from "@mui/material";
+import { AppBar, Toolbar, Typography, styled } from "@mui/material";
+import { Link } from "react-router-dom";
 import './Header.styles.scss';
-
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  alignItems: 'center',
+  display: "flex",
+  flexDirection: "row"
 }));
 
 const StyledTypography = styled(Typography)(({ theme }) => ({
@@ -14,14 +15,21 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
 const Header = () => {
   return (
     <StyledAppBar position="sticky">
-      <Toolbar>
-        <Link to='/' className="link">
-          <StyledTypography align='center' component='h1' variant='h4'>
-            Book Geeks
-          </StyledTypography>
-        </Link>
-      </Toolbar>
-    </StyledAppBar>
+    <Toolbar>
+      <Link to='/' className="link" style={{cursor: "pointer", textDecoration: "none"}}>
+        <StyledTypography align='center' component='h1' variant='h4'>
+          Book Geeks
+        </StyledTypography>
+      </Link>
+      <Link to='/bookmarks' className="link" style={{color: "white", paddingLeft: "1090px", cursor: "pointer", textDecoration: "none", fontWeight: "bold"}}>
+        Bookmarks
+       
+      </Link>
+      <Link to='/favourites'  className="link" style={{color: "white", paddingLeft: "10px", cursor: "pointer", textDecoration: "none", fontWeight: "bold"}}>
+        Favourites
+      </Link>
+    </Toolbar>
+  </StyledAppBar>
   );
 };
 

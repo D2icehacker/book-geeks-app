@@ -1,4 +1,5 @@
-import React, { useState, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   Paper,
@@ -14,6 +15,10 @@ import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+
+import { addBookmark, removeBookmark, addFavorite, removeFavorite, selectBookmarked, selectFavorites } from "../../Redux/Reducers/bookSlice";
+
+import { saveToMockDB } from "../../mockdb/data.js";
 
 import "./Book.styles.scss";
 
@@ -64,15 +69,34 @@ const Book = ({ book }) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const [rating, setRating] = useState(0);
 
+  const dispatch = useDispatch();
+  const bookmarked = useSelector(selectBookmarked);
+  const favorites = useSelector(selectFavorites);
+
+  useEffect(() => {
+    // Save bookmarked and favorites data to mock database whenever they change
+    saveToMockDB({ bookmarked, favorites });
+  }, [bookmarked, favorites]);
+
   const handleStarClick = (index) => {
     setRating(index + 1);
   };
 
   const toggleBookmark = () => {
+    if (!isBookmarked) {
+      dispatch(addBookmark(book));
+    } else {
+      dispatch(removeBookmark(book));
+    }
     setIsBookmarked(!isBookmarked);
   };
 
   const toggleFavorite = () => {
+    if (!isFavorited) {
+      dispatch(addFavorite(book));
+    } else {
+      dispatch(removeFavorite(book));
+    }
     setIsFavorited(!isFavorited);
   };
 
