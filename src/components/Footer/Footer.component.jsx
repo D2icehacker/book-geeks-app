@@ -19,6 +19,7 @@ const Footer = () => {
   return (
     <footer className={classes.footer}>
       <Toolbar className={classes.title}>
+        Book Geeks 2024
       </Toolbar>
     </footer>
   );

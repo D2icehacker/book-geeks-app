@@ -57,22 +57,11 @@ const SearchBar = ({
               history.push("/search");
             }}
           >
-            Advanced Search
+            Search
           </Button>
         )
       )}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={(e) => {
-          const isValid = validateSearch(e, parameter, filter);
-          if (isValid) {
-            history.push("/search");
-          }
-        }}
-      >
-        Search
-      </Button>
+      
     </form>
   );
 };
