@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense } from "react";
 import { Link } from "react-router-dom";
 import {
   Paper,
@@ -10,10 +10,7 @@ import {
 
 import noImg from "../../assets/no-image.png";
 
-import BookmarkIcon from '@material-ui/icons/Bookmark';
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
+import BookChip from "../BookChip/BookChip.component";
 
 import "./Book.styles.scss";
 
