@@ -22,9 +22,9 @@ export const filters = {
   // free: "&filter=free-ebooks",
   // paid: "&filter=paid-ebooks",
   // ebooks: "&filter=ebooks",
-  bookmarks: "&filter=",
-  favourites: "&filter=",
-  Reedbooks: "&filter=",
+  bookmarks: "&filter=1",
+  favourites: "&filter=2",
+  Readbooks: "&filter=3",
 };
 
 // order

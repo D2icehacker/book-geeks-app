@@ -1,5 +1,5 @@
 import React from "react";
-import { parameters, filters, orders } from "./../../constants/index";
+import { parameters, filters } from "./../../constants/index";
 import { Grid } from "@mui/material";
 import "./SearchParams.styles.scss";
 import Searhparam from "../SearchParam/SearhParam.component";
