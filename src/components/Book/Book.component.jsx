@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { Link } from "react-router-dom";
 import {
   Paper,
@@ -10,53 +10,71 @@ import {
 
 import noImg from "../../assets/no-image.png";
 
-import BookChip from "../BookChip/BookChip.component";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 import "./Book.styles.scss";
 
 const Image = React.lazy(() => import("../Image/Image.component"));
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  position: 'relative',
-  overflow: 'hidden',
-  margin: '1rem',
+  position: "relative",
+  overflow: "hidden",
+  margin: "1rem",
 }));
 
-const BookContent = styled('div')(({ theme }) => ({
+const BookContent = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
   color: theme.palette.secondary.contrastText,
-  height: '100%',
-  position: 'relative',
-  top: '253px',
-  zIndex: '2',
-  transition: 'top 0.3s ease-in-out',
+  height: "100%",
+  position: "relative",
+  top: "253px",
+  zIndex: "2",
+  transition: "top 0.3s ease-in-out",
 }));
 
 const BookTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '1rem',
-  lineHeight: '1.2rem',
+  fontSize: "1rem",
+  lineHeight: "1.2rem",
 }));
 
 const BookDate = styled(Typography)(({ theme }) => ({
-  fontSize: '0.8rem',
+  fontSize: "0.8rem",
 }));
 
 const BtnLink = styled(Link)(({ theme }) => ({
-  textDecoration: 'none',
+  textDecoration: "none",
   color: theme.palette.primary.contrastText,
 }));
 
 const Btn = styled(Button)(({ theme }) => ({
-  marginTop: '0.5rem',
+  marginTop: "0.5rem",
 }));
 
 const Book = ({ book }) => {
-  const { volumeInfo, saleInfo, accessInfo } = book;
-  const { isEbook, saleability } = saleInfo;
+  const { volumeInfo } = book;
   let imgURL = volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : noImg;
   let publishedYear = volumeInfo.publishedDate
     ? volumeInfo.publishedDate.slice(0, 4)
     : null;
+
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [rating, setRating] = useState(0);
+
+  const handleStarClick = (index) => {
+    setRating(index + 1);
+  };
+
+  const toggleBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+  };
+
+  const toggleFavorite = () => {
+    setIsFavorited(!isFavorited);
+  };
 
   return (
     <StyledPaper className="book__paper">
@@ -77,39 +95,57 @@ const Book = ({ book }) => {
       </div>
       <BookContent>
         <div className="book__top">
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div onClick={toggleBookmark} style={{ cursor: "pointer" }}>
+              {isBookmarked ? (
+                <BookmarkIcon fontSize="large"  style={{
+                  cursor: "pointer",
+                  color: "gold",
+                }}/>
+              ) : (
+                <BookmarkBorderIcon fontSize="large" />
+              )}
+            </div>
+            <div onClick={toggleFavorite} style={{ cursor: "pointer" }}>
+              {isFavorited ? (
+                <StarIcon fontSize="large"  style={{
+                  cursor: "pointer",
+                  color: "gold",
+                }} />
+              ) : (
+                <StarBorderIcon
+                  fontSize="large"
+                 
+                />
+              )}
+            </div>
+          </div>
           <BookTitle variant="h6" component="h3">
             {volumeInfo.title}
           </BookTitle>
           <BookDate variant="subtitle1" component="p">
             {publishedYear}
           </BookDate>
-
-          {volumeInfo.categories && (
-            <BookChip
-              label={volumeInfo.categories}
-              color="chipCategory"
-              key={volumeInfo.categories}
-            />
-          )}
-
-          {saleability === "FREE" ? (
-            <BookChip label="Free" color="chipSuccess" />
-          ) : saleability === "FOR_SALE" ? (
-            <BookChip label="For Sale" color="chipInfo" />
-          ) : saleability === "NOT_FOR_SALE" ? (
-            <BookChip label="Not for sale" color="chipDanger" />
-          ) : null}
-
-          {isEbook ? <BookChip label="Ebook" color="chipSuccess" /> : null}
-
-          {accessInfo.viewability === "PARTIAL" ? (
-            <BookChip label="Partial Preview" color="chipWarning" />
-          ) : accessInfo.viewability === "ALL_PAGES" ? (
-            <BookChip label="Full Preview" color="chipSuccess" />
-          ) : accessInfo.viewability === "NO_PAGES" ? (
-            <BookChip label="No Preview" color="chipDanger" />
-          ) : null}
-
+          <Typography variant="h6" component="h3">
+            Rating:
+            <br />
+            {[...Array(5)].map((_, index) => (
+              <span
+                key={index}
+                onClick={() => handleStarClick(index)}
+                style={{
+                  cursor: "pointer",
+                  color: index < rating ? "gold" : "inherit",
+                }}
+              >
+                {index < rating ? (
+                  <StarIcon fontSize="small" />
+                ) : (
+                  <StarBorderIcon fontSize="small" />
+                )}
+              </span>
+            ))}
+          </Typography>
           <BtnLink to={`/details/${book.id}`}>
             <Btn variant="contained" color="primary" fullWidth>
               Details

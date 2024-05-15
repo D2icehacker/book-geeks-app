@@ -8,6 +8,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 
 const StyledTypography = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold',
+  color: 'white',
 }));
 
 const Header = () => {

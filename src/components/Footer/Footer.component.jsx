@@ -11,12 +11,13 @@ const StyledFooter = styled('footer')(({ theme }) => ({
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   justifyContent: 'center',
   textAlign: 'center',
+  fontWeight: 'bold',
 }));
 
 const Footer = () => {
   return (
     <StyledFooter>
-      <StyledToolbar />
+      <StyledToolbar>Book Geeks 2024</StyledToolbar>
     </StyledFooter>
   );
 };

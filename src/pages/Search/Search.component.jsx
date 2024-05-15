@@ -32,7 +32,7 @@ const Search = () => {
   return (
     <Container className="container-search">
       <Title
-        text="Search by different parameters, filters and/or order"
+        text="Search by different parameters and filters"
         align="center"
       />
       <Paper
