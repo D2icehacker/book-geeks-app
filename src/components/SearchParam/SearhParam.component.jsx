@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, Select, InputLabel, MenuItem } from "@material-ui/core";
+import { FormControl, Select, InputLabel, MenuItem } from "@mui/material";
 
 const Searhparam = ({ param, items, setfunction, label }) => {
   const handleParameterChange = (e) => {

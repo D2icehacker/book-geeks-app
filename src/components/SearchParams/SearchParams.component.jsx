@@ -1,6 +1,6 @@
 import React from "react";
-import { parameters, filters} from "./../../constants/index";
-import { Grid } from "@material-ui/core";
+import { parameters, filters, orders } from "./../../constants/index";
+import { Grid } from "@mui/material";
 import "./SearchParams.styles.scss";
 import Searhparam from "../SearchParam/SearhParam.component";
 

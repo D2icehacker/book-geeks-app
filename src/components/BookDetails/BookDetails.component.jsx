@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import parse from "html-react-parser";
-import { Grid, Typography, CircularProgress } from "@material-ui/core";
+import { Grid, Typography, CircularProgress } from "@mui/material";
 import Title from "../Title/Title.component";
 import BookDetailsBtn from "./../BookDetailsBtns/BookDetailsBtn.component";
 import NoInfo from "./../NoInfo/NoInfo.components";

@@ -1,29 +1,31 @@
 import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
-import { TextField, Button } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
+import { TextField, Button } from "@mui/material";
 import SearchParams from "../SearchParams/SearchParams.component";
 
 const SearchBar = ({
   validateSearch,
   parameter,
   filter,
-  history,
+  order,
   home,
   search,
   setParameter,
   setFilter,
 }) => {
   const [searchValue, setSearchValue] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setSearchValue(e.target.value);
   };
+
   const handleKeyPress = (e) => {
     validateSearch(e, parameter, filter);
     if (e.key !== "Enter") {
       return;
     } else if (home && e.key === "Enter" && e.target.value !== "") {
-      history.push("/search");
+      navigate("/search");
     } else {
       e.preventDefault();
     }
@@ -36,7 +38,7 @@ const SearchBar = ({
         id="q_book"
         onKeyPress={(e) => handleKeyPress(e)}
         onChange={(e) => handleChange(e)}
-        fullWidth={true}
+        fullWidth
         margin="normal"
         value={searchValue}
       />
@@ -54,7 +56,7 @@ const SearchBar = ({
             color="secondary"
             style={{ marginRight: "0.5rem" }}
             onClick={() => {
-              history.push("/search");
+              navigate("/search");
             }}
           >
             Advanced Search
@@ -67,7 +69,7 @@ const SearchBar = ({
         onClick={(e) => {
           const isValid = validateSearch(e, parameter, filter);
           if (isValid) {
-            history.push("/search");
+            navigate("/search");
           }
         }}
       >
@@ -77,4 +79,4 @@ const SearchBar = ({
   );
 };
 
-export default withRouter(SearchBar);
+export default SearchBar;

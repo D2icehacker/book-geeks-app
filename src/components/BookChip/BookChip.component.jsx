@@ -1,34 +1,21 @@
 import React from "react";
-import { makeStyles, Chip } from "@material-ui/core";
+import { Chip, styled } from "@mui/material"; 
 
-const useStyles = makeStyles((theme) => ({
-  chip: {
-    marginRight: "0.3rem",
-    marginTop: "0.3rem",
-    color: "#ffffff"
-  },
-  chipCategory: {
-    backgroundColor: theme.palette.tertiary.main,
-  },
-  chipSuccess: {
-    backgroundColor: theme.palette.success.main,
-  },
-  chipInfo: {
-    backgroundColor: theme.palette.info.main,
-  },
-  chipWarning: {
-    backgroundColor: theme.palette.warning.main,
-  },
-  chipDanger: {
-    backgroundColor: theme.palette.error.main,
-  },
-}));
+const StyledChip = styled(Chip, {
+  shouldForwardProp: (prop) => prop !== 'color' // Prevent the color prop from being passed to the DOM element
+})(({ theme, color }) => {
+  const backgroundColor = theme.palette[color]?.main || theme.palette.grey[500]; // Default to grey if color not found
+  return {
+    marginRight: '0.3rem',
+    marginTop: '0.3rem',
+    color: '#ffffff',
+    backgroundColor,
+  };
+});
 
 const BookChip = ({ label, color }) => {
-  const classes = useStyles();
-
   return (
-    <Chip size="small" label={label} className={`${classes[color]} ${classes.chip}`} key={label} />
+    <StyledChip size="small" label={label} color={color} />
   );
 };
 
