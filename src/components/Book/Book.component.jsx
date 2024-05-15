@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Paper,
@@ -9,7 +9,12 @@ import {
 } from "@mui/material";
 
 import noImg from "../../assets/no-image.png";
-import BookChip from "../BookChip/BookChip.component";
+
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import StarIcon from '@material-ui/icons/Star';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+
 import "./Book.styles.scss";
 
 const Image = React.lazy(() => import("../Image/Image.component"));
@@ -68,7 +73,7 @@ const Book = ({ book }) => {
         >
           <Image
             src={imgURL}
-            alt={book.volumeInfo.title}
+            alt={volumeInfo.title}
             classnames="book__bg-img"
           />
         </Suspense>

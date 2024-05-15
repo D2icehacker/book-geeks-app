@@ -9,8 +9,6 @@ const SearchParams = ({
   setParameter,
   filter,
   setFilter,
-  order,
-  setOrder,
 }) => {
   return (
     <Grid container spacing={2}>
@@ -25,10 +23,7 @@ const SearchParams = ({
       <Grid item xs={12} sm={4}>
         <Searhparam param={filter} items={filters} setfunction={setFilter} label="Filter" />
       </Grid>
-      <Grid item xs={12} sm={4}>
-        <Searhparam param={order} items={orders} setfunction={setOrder} label="Order by" />
-      </Grid>
-    </Grid>
+       </Grid>
   );
 };
 

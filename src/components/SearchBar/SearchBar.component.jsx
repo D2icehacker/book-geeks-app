@@ -12,7 +12,6 @@ const SearchBar = ({
   search,
   setParameter,
   setFilter,
-  setOrder,
 }) => {
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
@@ -22,7 +21,7 @@ const SearchBar = ({
   };
 
   const handleKeyPress = (e) => {
-    validateSearch(e, parameter, filter, order);
+    validateSearch(e, parameter, filter);
     if (e.key !== "Enter") {
       return;
     } else if (home && e.key === "Enter" && e.target.value !== "") {
@@ -47,10 +46,8 @@ const SearchBar = ({
         <SearchParams
           parameter={parameter}
           filter={filter}
-          order={order}
           setParameter={setParameter}
           setFilter={setFilter}
-          setOrder={setOrder}
         />
       ) : (
         home && (
@@ -70,7 +67,7 @@ const SearchBar = ({
         variant="contained"
         color="primary"
         onClick={(e) => {
-          const isValid = validateSearch(e, parameter, filter, order);
+          const isValid = validateSearch(e, parameter, filter);
           if (isValid) {
             navigate("/search");
           }
