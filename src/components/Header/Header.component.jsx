@@ -21,11 +21,11 @@ const Header = () => {
           Book Geeks
         </StyledTypography>
       </Link>
-      <Link to='/bookmarks' className="link" style={{color: "white", paddingLeft: "1090px", cursor: "pointer", textDecoration: "none", fontWeight: "bold"}}>
+      <Link to='/bookmarks' className="link" style={{color: "white", paddingLeft: "100px", cursor: "pointer", textDecoration: "none", fontWeight: "bold"}}>
         Bookmarks
        
       </Link>
-      <Link to='/favourites'  className="link" style={{color: "white", paddingLeft: "10px", cursor: "pointer", textDecoration: "none", fontWeight: "bold"}}>
+      <Link to='/favourites'  className="link" style={{color: "white", paddingLeft: "15px", cursor: "pointer", textDecoration: "none", fontWeight: "bold"}}>
         Favourites
       </Link>
     </Toolbar>

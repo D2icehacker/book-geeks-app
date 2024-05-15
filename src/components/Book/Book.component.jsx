@@ -67,7 +67,7 @@ const Book = ({ book }) => {
 
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
-  const [rating, setRating] = useState(0);
+
 
   const dispatch = useDispatch();
   const bookmarked = useSelector(selectBookmarked);
@@ -78,9 +78,7 @@ const Book = ({ book }) => {
     saveToMockDB({ bookmarked, favorites });
   }, [bookmarked, favorites]);
 
-  const handleStarClick = (index) => {
-    setRating(index + 1);
-  };
+ ;
 
   const toggleBookmark = () => {
     if (!isBookmarked) {
@@ -150,29 +148,10 @@ const Book = ({ book }) => {
           <BookDate variant="subtitle1" component="p">
             {publishedYear}
           </BookDate>
-          <Typography variant="h6" component="h3">
-            Rating:
-            <br />
-            {[...Array(5)].map((_, index) => (
-              <span
-                key={index}
-                onClick={() => handleStarClick(index)}
-                style={{
-                  cursor: "pointer",
-                  color: index < rating ? "gold" : "inherit",
-                }}
-              >
-                {index < rating ? (
-                  <StarIcon fontSize="small" />
-                ) : (
-                  <StarBorderIcon fontSize="small" />
-                )}
-              </span>
-            ))}
-          </Typography>
+         
           <BtnLink to={`/details/${book.id}`}>
             <Btn variant="contained" color="primary" fullWidth>
-              Details
+              Read More
             </Btn>
           </BtnLink>
         </div>
