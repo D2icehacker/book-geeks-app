@@ -1,5 +1,4 @@
-import React, { useState, useEffect, Suspense } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Suspense } from "react";
 import { Link } from "react-router-dom";
 import {
   Paper,
@@ -10,15 +9,6 @@ import {
 } from "@mui/material";
 
 import noImg from "../../assets/no-image.png";
-
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-
-import { addBookmark, removeBookmark, addFavorite, removeFavorite, selectBookmarked, selectFavorites } from "../../Redux/Reducers/bookSlice";
-
-import { saveToMockDB } from "../../mockdb/data.js";
 
 import "./Book.styles.scss";
 
@@ -65,39 +55,6 @@ const Book = ({ book }) => {
     ? volumeInfo.publishedDate.slice(0, 4)
     : null;
 
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [isFavorited, setIsFavorited] = useState(false);
-
-
-  const dispatch = useDispatch();
-  const bookmarked = useSelector(selectBookmarked);
-  const favorites = useSelector(selectFavorites);
-
-  useEffect(() => {
-    // Save bookmarked and favorites data to mock database whenever they change
-    saveToMockDB({ bookmarked, favorites });
-  }, [bookmarked, favorites]);
-
- ;
-
-  const toggleBookmark = () => {
-    if (!isBookmarked) {
-      dispatch(addBookmark(book));
-    } else {
-      dispatch(removeBookmark(book));
-    }
-    setIsBookmarked(!isBookmarked);
-  };
-
-  const toggleFavorite = () => {
-    if (!isFavorited) {
-      dispatch(addFavorite(book));
-    } else {
-      dispatch(removeFavorite(book));
-    }
-    setIsFavorited(!isFavorited);
-  };
-
   return (
     <StyledPaper className="book__paper">
       <div className="book__img-container">
@@ -117,31 +74,6 @@ const Book = ({ book }) => {
       </div>
       <BookContent>
         <div className="book__top">
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div onClick={toggleBookmark} style={{ cursor: "pointer" }}>
-              {isBookmarked ? (
-                <BookmarkIcon fontSize="large"  style={{
-                  cursor: "pointer",
-                  color: "gold",
-                }}/>
-              ) : (
-                <BookmarkBorderIcon fontSize="large" />
-              )}
-            </div>
-            <div onClick={toggleFavorite} style={{ cursor: "pointer" }}>
-              {isFavorited ? (
-                <StarIcon fontSize="large"  style={{
-                  cursor: "pointer",
-                  color: "gold",
-                }} />
-              ) : (
-                <StarBorderIcon
-                  fontSize="large"
-                 
-                />
-              )}
-            </div>
-          </div>
           <BookTitle variant="h6" component="h3">
             {volumeInfo.title}
           </BookTitle>

@@ -7,19 +7,17 @@ import { useSelector } from "react-redux";
 import "./Bookmarks.styles.scss";
 
 const Books = React.lazy(() =>
-  import("../../components/Books/Books.component")
+  import("../../components/BookDetails/BookDetails.component")
 );
 
 const Bookmark = () => {
  
   const books = useSelector(selectBookmarked)
 
-  //set a State for parameter, filter and order options
-
 
   return (
     <Container className="container-search">
-      <Title
+      <Title 
         text="Bookmarks"
         align="center"
       />
