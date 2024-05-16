@@ -64,7 +64,7 @@ function App() {
                 </>
               }
             />
-  <Route
+            <Route
               path="/favourites"
               element={
                 <>

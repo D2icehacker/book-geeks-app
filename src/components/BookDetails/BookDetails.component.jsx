@@ -4,29 +4,29 @@ import React, { useState } from "react";
 import parse from "html-react-parser";
 import { Grid, Typography, TextField, Button } from "@mui/material";
 import Title from "../Title/Title.component";
-import NoInfo from "./../NoInfo/NoInfo.components";
 import noImg from "../../assets/no-image.png";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { useDispatch, useSelector } from "react-redux";
-import { addReview, addRating, selectReviews, selectRatings } from "../../Redux/Reducers/bookSlice";
-
+import NoInfo from "../NoInfo/NoInfo.components";
+import {
+  addReview,
+  addRating,
+  selectReviewsByBookId,
+  selectRatings,
+} from "../../Redux/Reducers/bookSlice";
 import "./BookDetails.styles.scss";
+
 
 const BookDetails = ({ details }) => {
   const { volumeInfo } = details;
-  const {
-    title,
-    authors,
-    publisher,
-    publishedDate,
-    description,
-    categories,
-  } = volumeInfo;
+  const { title, authors, publisher, publishedDate, description, categories } = volumeInfo;
 
-  const [rating, setRating] = useState(useSelector(selectRatings)[details.id] || 0);
+  const [rating, setRating] = useState(
+    useSelector(selectRatings)[details.id] || 0
+  );
   const [review, setReview] = useState("");
-  const reviews = useSelector(selectReviews);
+  const reviews = useSelector((state) => selectReviewsByBookId(state, details.id));
   const dispatch = useDispatch();
 
   const handleStarClick = (index) => {
@@ -38,14 +38,14 @@ const BookDetails = ({ details }) => {
     setReview(event.target.value);
   };
 
-  const handleSubmitReview = () => {
+  const handleSubmitReview = (bookId) => {
     if (review.trim() !== "") {
-      dispatch(addReview(review));
+      dispatch(addReview({ id: bookId, review: review.trim() }));
       setReview("");
     }
   };
 
-  let imgURL = volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : noImg;
+  const imgURL = volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : noImg;
 
   return (
     <Grid container spacing={2}>
@@ -59,8 +59,7 @@ const BookDetails = ({ details }) => {
           {publishedDate ? publishedDate : <NoInfo />}
         </p>
         <p className="book-details__right-info">
-          <span>Categories:</span>{" "}
-          {categories ? categories : <NoInfo />}
+          <span>Categories:</span> {categories ? categories : <NoInfo />}
         </p>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
@@ -140,7 +139,7 @@ const BookDetails = ({ details }) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={handleSubmitReview}
+            onClick={() => handleSubmitReview(details.id)}
           >
             Submit Review
           </Button>

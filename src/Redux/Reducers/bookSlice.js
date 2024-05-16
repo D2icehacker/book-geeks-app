@@ -1,12 +1,10 @@
-// bookSlice.js
-
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   bookmarked: [],
   favorites: [],
-  reviews: JSON.parse(localStorage.getItem("reviews")) || [],
-  ratings: JSON.parse(localStorage.getItem("ratings")) || {}, // Load ratings from local storage
+  reviews: JSON.parse(localStorage.getItem('reviews')) || {}, // Initialize reviews as an object
+  ratings: JSON.parse(localStorage.getItem('ratings')) || {},
 };
 
 export const bookSlice = createSlice({
@@ -30,8 +28,12 @@ export const bookSlice = createSlice({
       );
     },
     addReview: (state, action) => {
-      state.reviews.push(action.payload);
-      localStorage.setItem("reviews", JSON.stringify(state.reviews));
+      const { id, review } = action.payload;
+      if (!state.reviews[id]) {
+        state.reviews[id] = [];
+      }
+      state.reviews[id].push(review);
+      localStorage.setItem('reviews', JSON.stringify(state.reviews));
     },
     addRating: (state, action) => {
       const { id, rating } = action.payload;
@@ -53,6 +55,9 @@ export const {
 export const selectBookmarked = (state) => state.books.bookmarked;
 export const selectFavorites = (state) => state.books.favorites;
 export const selectReviews = (state) => state.books.reviews;
-export const selectRatings = (state) => state.books.ratings; // Select ratings from the state
+export const selectRatings = (state) => state.books.ratings;
+
+// Selector to get reviews by book ID
+export const selectReviewsByBookId = (state, bookId) => state.books.reviews[bookId] || [];
 
 export default bookSlice.reducer;
