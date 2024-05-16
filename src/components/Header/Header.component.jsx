@@ -26,7 +26,7 @@ const Header = () => {
        
       </Link>
       <Link to='/favourites'  className="link" style={{color: "white", paddingLeft: "15px", cursor: "pointer", textDecoration: "none", fontWeight: "bold"}}>
-        Favourites
+        Favorites
       </Link>
     </Toolbar>
   </StyledAppBar>
