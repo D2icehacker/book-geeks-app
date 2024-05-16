@@ -19,7 +19,7 @@ const Bookmark = () => {
 
   return (
     <Container className="container-search">
-      <Title
+      <Title 
         text="Bookmarks"
         align="center"
       />
