@@ -2,53 +2,92 @@
 
 import React, { useState } from "react";
 import parse from "html-react-parser";
-import { Grid, Typography, TextField, Button } from "@mui/material";
+import { Grid, Typography, TextField, Button, IconButton, Box } from "@mui/material";
 import Title from "../Title/Title.component";
+import NoInfo from "./../NoInfo/NoInfo.components";
 import noImg from "../../assets/no-image.png";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useDispatch, useSelector } from "react-redux";
-import NoInfo from "../NoInfo/NoInfo.components";
-import {
-  addReview,
-  addRating,
-  selectReviewsByBookId,
-  selectRatings,
-} from "../../Redux/Reducers/bookSlice";
-import "./BookDetails.styles.scss";
+import { addReview, addRating, selectReviewsByBookId, selectRatings, addBookmark, removeBookmark, addFavorite, removeFavorite } from "../../Redux/Reducers/bookSlice";
 
+import "./BookDetails.styles.scss";
 
 const BookDetails = ({ details }) => {
   const { volumeInfo } = details;
-  const { title, authors, publisher, publishedDate, description, categories } = volumeInfo;
+  const {
+    id,
+    title,
+    authors,
+    publisher,
+    publishedDate,
+    description,
+    categories,
+  } = volumeInfo;
 
-  const [rating, setRating] = useState(
-    useSelector(selectRatings)[details.id] || 0
-  );
+  const [rating, setRating] = useState(useSelector(selectRatings)[id] || 0);
   const [review, setReview] = useState("");
-  const reviews = useSelector((state) => selectReviewsByBookId(state, details.id));
+  const reviews = useSelector(state => selectReviewsByBookId(state, id)); // Get reviews for the current book
   const dispatch = useDispatch();
+  const isBookmarked = useSelector(state => state.books.bookmarked.some(book => book.id === id));
+  const isFavorited = useSelector(state => state.books.favorites.some(book => book.id === id));
 
   const handleStarClick = (index) => {
     setRating(index + 1);
-    dispatch(addRating({ id: details.id, rating: index + 1 }));
+    dispatch(addRating({ id: id, rating: index + 1 }));
   };
 
   const handleReviewChange = (event) => {
     setReview(event.target.value);
   };
 
-  const handleSubmitReview = (bookId) => {
+  const handleSubmitReview = () => {
     if (review.trim() !== "") {
-      dispatch(addReview({ id: bookId, review: review.trim() }));
+      dispatch(addReview({ id: id, review: review }));
       setReview("");
     }
   };
 
-  const imgURL = volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : noImg;
+  const handleBookmarkToggle = () => {
+    if (isBookmarked) {
+      dispatch(removeBookmark({ id: id }));
+    } else {
+      dispatch(addBookmark({ id: id, details: volumeInfo }));
+    }
+  };
+
+  const handleFavoriteToggle = () => {
+    if (isFavorited) {
+      dispatch(removeFavorite({ id: id }));
+    } else {
+      dispatch(addFavorite({ id: id, details: volumeInfo }));
+    }
+  };
+
+  let imgURL = volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : noImg;
 
   return (
     <Grid container spacing={2}>
+      <Grid item xs={12} className="book-details__top">
+        <Box className="book-details__actions" sx={{paddingLeft: "475px", paddingTop: "50px"}}>
+          <IconButton onClick={handleBookmarkToggle}>
+            {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+          </IconButton>
+          <Button onClick={handleBookmarkToggle} variant="outlined" color="primary">
+            {isBookmarked ? "Remove from Bookmark" : "Add to Bookmark"}
+          </Button>
+          <IconButton onClick={handleFavoriteToggle}>
+            {isFavorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </IconButton>
+          <Button onClick={handleFavoriteToggle} variant="outlined" color="primary">
+            {isFavorited ? "Remove from Favorite" : "Add to Favorite"}
+          </Button>
+        </Box>
+      </Grid>
       <Grid item xs={12} md={5} className="book-details__left">
         <img src={imgURL} alt={title} className="book-details__image" />
       </Grid>
@@ -59,7 +98,8 @@ const BookDetails = ({ details }) => {
           {publishedDate ? publishedDate : <NoInfo />}
         </p>
         <p className="book-details__right-info">
-          <span>Categories:</span> {categories ? categories : <NoInfo />}
+          <span>Categories:</span>{" "}
+          {categories ? categories : <NoInfo />}
         </p>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
@@ -139,7 +179,7 @@ const BookDetails = ({ details }) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => handleSubmitReview(details.id)}
+            onClick={handleSubmitReview}
           >
             Submit Review
           </Button>
